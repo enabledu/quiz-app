@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import React,  { useContext } from 'react';
 import { QuizContext } from './QuizContext';
 import Question from './Question';
+import ShowAnswers from './ShowAnswers';
 
 
 const Quiz = () =>{
@@ -14,14 +15,12 @@ const Quiz = () =>{
         <div className='main'>
             <Container>
 
-                <div className='quizTitle'>
-                    <h3 >Quiz Title</h3>
-                </div>
+                {state.showAnswers && <ShowAnswers/> }
 
-                {state.showResults && (
+                {(state.showResults && !state.showAnswers) && (
 
                     <div className='results'>
-                        
+
                         <div className="congrats">Congratulations!</div>
 
                         <div className="resultsInfo">
@@ -34,6 +33,8 @@ const Quiz = () =>{
 
                             <div className='restart' onClick={()=> dispatch({type: 'restart'})}>Restart</div>
 
+                            <div className='restart' onClick={()=> dispatch({type: 'showAnswers'})}>Show Answers </div>  
+
                         </div>
 
                     </div>
@@ -41,23 +42,35 @@ const Quiz = () =>{
                 )}
 
                 {!state.showResults && (
+                    <>
+                        <div className='quizTitle'>
+                            <h3 >Quiz Title</h3>
+                        </div>
 
-                    <div className='quiz'>
+                        <div className='quiz'>
 
-                        <p className='questionNumber'>Question {state.currentQuestion + 1 } / {state.questions.length}</p>
+                            <p className='questionNumber'>Question {state.currentQuestion + 1 } / {state.questions.length}</p>
 
-                        <Question/>
+                            <Question/>
 
-                        {state.currentAnswer && (
-                            <div
-                                className='nextQuestion'
-                                onClick={()=>dispatch({type: 'next'})}
-                            >
-                                <button>Next Question</button>
-                            </div>
-                        )}
+                            {state.currentAnswer && (
+                                <div
+                                    className='nextQuestion'
+                                    onClick={()=>dispatch({type: 'next'})}
+                                >
+                                    <button>
+                                        {
+                                            state.currentQuestion + 1 === state.questions.length ? 'Finish' : 'Next Question'
 
-                    </div>
+                                        }
+                                    </button>
+                                </div>
+                            )}
+
+                         </div>
+                    </>
+
+
                 )}
 
             </Container>

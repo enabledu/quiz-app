@@ -14,7 +14,7 @@ const questions = [
       ],
       correctAnswer: "Cascading Style Sheets",
     },
-  
+
     {
       question:
         "Where in an HTML document is the correct place to refer to an external style sheet?",
@@ -70,69 +70,82 @@ const questions = [
 ]
 
 const initialState = {
-    questions:questions,
-    answers: shuffleAnswers(questions[0]),
-    currentQuestion:0,
-    currentAnswer:"",
-    showResults: false,
-    score:0,
+  questions:questions,
+  answers: shuffleAnswers(questions[0]),
+  currentQuestion:0,
+  currentAnswer:"",
+  showResults: false,
+  score:0,
+  userChoices:"",
+  showAnswers: false,
 }
 
-  
-const quizReducer = (state, action) => {
-    switch (action.type) {
 
-        case 'select':{
-            const score =
-                action.payload ===
-                state.questions[state.currentQuestion].correctAnswer
-                ? state.score + 1
-                : state.score;
-            return {
-                ...state,
-                currentAnswer: action.payload,
-                score,
-            };
-        }
-        case "next": {
-            const showResults =
-                state.currentQuestion === state.questions.length - 1;
-            const currentQuestion = showResults
-                ? state.currentQuestion
-                : state.currentQuestion + 1;
-            const answers = showResults
-                ? []
-                : shuffleAnswers(state.questions[currentQuestion]);
-            return {
-                ...state,
-                currentAnswer: "",
-                showResults,
-                currentQuestion,
-                answers,
-            };
-        }
-        case "restart": {
-            return initialState;
-        }
-        default:
-            return state;
+const quizReducer = (state, action) => {
+  switch (action.type) {
+
+    case 'select':{
+      return {
+          ...state,
+          currentAnswer: action.payload,
+      };
     }
+
+    case "next": {
+
+      const score =
+      state.currentAnswer ===
+      state.questions[state.currentQuestion].correctAnswer
+      ? state.score + 1
+      : state.score;
+
+      const showResults =
+          state.currentQuestion === state.questions.length - 1;
+
+      const currentQuestion = showResults
+          ? state.currentQuestion
+          : state.currentQuestion + 1;
+
+      const answers = showResults
+          ? []
+          : shuffleAnswers(state.questions[currentQuestion]);
+
+      return {
+          ...state,
+          currentAnswer: "",
+          showResults,
+          currentQuestion,
+          answers,
+          score,
+          userChoices:[...state.userChoices,state.currentAnswer]
+      };
+    }
+
+    case "restart": {
+      return initialState;
+    }
+
+    case "showAnswers" :{
+      return {
+        ...state,
+        showAnswers: true,
+      }
+    }
+    default:
+      return state;
+  }
 };
 
 
-  
+
 export const QuizProvider = ({ children }) => {
 
-    const state= useReducer(quizReducer, initialState);
-  
-  
-    return (
-      <QuizContext.Provider value={ state}>
-        {children}
-      </QuizContext.Provider>
-    );
-  };
- 
-  
-  
-  
+  const state= useReducer(quizReducer, initialState);
+
+
+  return (
+    <QuizContext.Provider value={ state}>
+      {children}
+    </QuizContext.Provider>
+  );
+};

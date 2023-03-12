@@ -18,8 +18,6 @@ const Question = () =>{
                         <Answer
                             key={index}
                             answer= {answer}
-                            currentAnswer= {state.currentAnswer}
-                            correctAnswer= {currentQuestion.correctAnswer}
                             index ={index}
                             selectAnswer ={
                                 (answer)=> dispatch({type:'select', payload: answer})

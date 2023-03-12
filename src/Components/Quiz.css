@@ -57,24 +57,6 @@
     border: 2px solid #161616;
     background-color: #ffffff;
 }
-/* .correctAnswer {
-    border: 2px solid #1ea55b;
-    background-color: #ffffff;
-}
-.correctAnswer .answerLetter {
-    background: #1ea55b;
-
-}
-.wrongAnswer {
-    border: 2px solid #dc0a0a;
-    background-color: #ffffff;
-}
-.wrongAnswer .answerLetter {
-    background: #dc0a0a;
-} */
-/* .disabled{
-    pointer-events: none;
-} */
 
 .answerLetter{
     background-color: aliceblue;
@@ -155,4 +137,24 @@
     background: #ebdbc3;
     cursor: pointer;
     margin-top: 2rem;
+}
+.showAnswers h2{
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.quizAnswer{
+    background-color: #DEE1DD;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+    font-size: 24px;
+
+}
+
+.showAnswers .answers{
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
